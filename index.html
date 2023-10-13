@@ -3,14 +3,44 @@
   <head>
     <meta charset="utf-8">
     <title>Rock Paper Scissor's game</title>
-  </head>
+</head>
 
-  <body>
+<body>
+    <button id="rock">Rock</button>
+    <button id="paper">Paper</button>
+    <button id="scissors">Scissors</button>
 
+    <div></div>
 
 </body>
 
 <script>
+    const btns = document.querySelectorAll('button')
+    const display = document.querySelector('div')
+    display.setAttribute('style', 'white-space: pre')
+    let currentScore = [0,0]
+    
+    btns.forEach(btn =>{
+        btn.addEventListener('click', function(){
+        let newResult = playRound(btn.getAttribute("id"), getComputerChoice())
+        console.log("Current Score: ", currentScore)
+        newScore = updateScore(newResult,currentScore)
+        display.textContent = "Player " + newScore[0] + " Computer: " + newScore[1] 
+        currentScore = newScore
+        console.log("Current Score: ", currentScore)
+
+            if (newScore[0]=== 5){
+                display.textContent += '\r\n' + "The Player Has Won"
+                currentScore = [0,0]
+            }
+            if (newScore[1] === 5){
+                display.textContent += '\r\n' + "The Computer Has Won"
+                currentScore = [0,0]
+            }
+
+     })
+    })
+
     //Get the computers choice, random choice between Rock, Paper, or Scissors
     function getComputerChoice(){
         let options = ['rock', 'paper', 'scissors'];
@@ -18,42 +48,41 @@
         console.log(options[index])
         return options[index]
     }
-    //Have the player enter their selection by prompt
-    function getPlayerSelection(){
-        let playerSelection = prompt("Enter Rock, or Paper, or Scissors");
-        return playerSelection.toLowerCase()
-    }
+ 
     //Play a single round of Rock, Paper, Scissors
     function playRound(player ,computer){
         //Rock beats scissors
         //Scissors beats paper
         //Paper beats rock
-     
+        console.log("Player Selection: ", player)
+        console.log("Computer Selection: ", computer)
+        
         //Check if result is a tie
         if (computer === player){
-            console.log("Tie. You and the computer selected " + player)
+            //display.textContent = "Tie. You and the computer selected " + player + '\n'
             return 0
         }
         else{
             //Check if player wins
             if((computer === 'scissors') && (player === 'rock')){
-                console.log("You Win! " + player + " beats " + computer)
+                //display.textContent = "You Win! " + player + " beats " + computer + '\n'
                 return 1
             }
             else if ((computer === 'paper') && (player === 'scissors')){
-                console.log("You Win! " + player + " beats " + computer)
+                //display.textContent = "You Win! " + player + " beats " + computer + '\n'
                 return 1
             }
             else if ((computer === 'rock') && (player === 'paper')){
-                console.log("You Win! " + player + " beats " + computer)
+                //display.textContent = "You Win! " + player + " beats " + computer + '\n'
                 return 1
             }
             else{
-                console.log("You Lose! " + computer + " beats " + player)
+                //display.textContent = "You Lose! " + computer + " beats " + player + '\n'
                 return 2
             }
 
         } 
+        
     }
     function updateScore(newResult,score){
         if (newResult === 1){
@@ -65,29 +94,6 @@
         return score
 
     }
-    // 5 rounds of Rock, Paper, Scissors
-    //Keeps score
-    function game(){
-        //score = [wins, losses]
-        let score = [0,0]
-        //play 5 times and update score
-        for (let i=0; i<5; i++){
-           score = updateScore(playRound(getPlayerSelection(), getComputerChoice()),score)
-        }
-        //Use score to determine winner
-        if (score[0] < score[1]){
-            console.log("You Lose!! Computer " + score[1] + " Player " + score[0])
-        }
-        else if (score[1]<score[0]){
-            console.log("You Win! Player " + score[0] + " Computer " + score[1])
-        }
-        else{
-            console.log("Tie Game. Try Again")
-        }
-        
-    }
-    //console.log(playRound(getPlayerSelection(), getComputerChoice()));
-    game();
 
 </script>
 </html>
